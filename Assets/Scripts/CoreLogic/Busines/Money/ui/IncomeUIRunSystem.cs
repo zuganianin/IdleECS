@@ -15,7 +15,7 @@ namespace CoreLogic.Business {
             {
                 ref Income income = ref _filter.Get1(i);
                 ref IncomeUIUpdater incomeUI = ref _filter.Get2(i);
-                incomeUI.incomeView.SetIncome(income.currentIncome);
+                incomeUI.incomeView.SetIncomeValue(income.currentIncome);
             }
         }
     }

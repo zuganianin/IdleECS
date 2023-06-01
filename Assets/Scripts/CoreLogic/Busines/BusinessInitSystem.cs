@@ -10,21 +10,26 @@ namespace CoreLogic.Business {
         readonly BusinesView _view = null;
 
         readonly LvlPriceCalculator _lvlCalc;
+
+        private EcsEntity[] _entities;
+
+        private UiEventToEntity _eventToEntity;
         
         public void Init () {
+            _eventToEntity = new UiEventToEntity();
+            int index = 0;
+            _entities = new EcsEntity[_config.allBusiness.Count];
 
-            bool firstInited = false;
             foreach(var config in _config.allBusiness)
             {
-                var entity = InitBusiness(config, !firstInited);
-                if(!firstInited)
-                {
-                    firstInited = true;
-                }
+                var entity = InitBusiness(config, index);
+                _entities[index] = entity;
+                index++;
             }
+            _eventToEntity.Initialize(_entities);
         }
 
-        public EcsEntity InitBusiness(BusinessConfig config, bool isFirst)
+        public EcsEntity InitBusiness(BusinessConfig config, int index)
         {
             var entity = _world.NewEntity();
             
@@ -35,28 +40,31 @@ namespace CoreLogic.Business {
             ref Income income = ref entity.Get<Income>();
             income.currentIncome = config.baseIncome;
 
-            BusinessCell cell = _view.GetCell();
+            BusinessCell cell = _view.GetCell(index);
             cell.SetNameBusines(config.name);
+            cell.ButtonCellTaped += _eventToEntity.CellIndexButtonTap;
 
             ref IncomeProgressUIUpdater progressUIUpdater = ref entity.Get<IncomeProgressUIUpdater>();
             progressUIUpdater.progressView = cell;
 
 
             ref Lvl lvl = ref entity.Get<Lvl>();
-            lvl.current = isFirst ? 1 : 0;
+            lvl.current = (index == 0) ? 1 : 0;
             lvl.basePrice = config.basePrice;
-            lvl.current = _lvlCalc.PriceForLevel(lvl);
+            lvl.price = _lvlCalc.PriceForLevel(lvl);
 
-            if(isFirst)
+            ref LvlUpUIUpdater lvlUI = ref entity.Get<LvlUpUIUpdater>();
+            lvlUI.lvlupView = cell;
+            entity.Get<LvlUpdateUIFlag>();
+            
+            if(index == 0)
             {
                 entity.Get<ActiveBusinessFlag>();
             }
 
             ref IncomeUIUpdater incomeUI = ref entity.Get<IncomeUIUpdater>();
             incomeUI.incomeView = cell;
-
             entity.Get<IncomeUpdateRequest>();
-
             return entity;
         }
     }

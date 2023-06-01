@@ -15,17 +15,15 @@ public class BusinesView : MonoBehaviour
     private Transform _parentTransformForCells;
 
     private List<BusinessCell> _allCells;
-    private EcsWorld _world = null;
-    public void Initialize(EcsWorld world)
+   
+    public void Initialize()
     {
-        UpdateMoneyText(0);
-        _world = world;
-        _allCells = new List<BusinessCell>();
     }
 
-    public BusinessCell GetCell()
+    public BusinessCell GetCell(int id)
     {
         var cell = Instantiate<BusinessCell>(_cellPrototype);
+        cell.Initialize(id);
         cell.gameObject.transform.SetParent(_parentTransformForCells);
         return cell;
     }

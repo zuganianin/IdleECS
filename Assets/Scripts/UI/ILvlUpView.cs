@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IIncomeView 
+public interface ILvlUpView
 {
-    public void SetIncomeValue(int value);
-    
+    public void SetLvlParametrs(int lvl, int price);
 }

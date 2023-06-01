@@ -15,17 +15,22 @@ public class LoadECS : MonoBehaviour
     private EcsWorld _world;
     private EcsSystems _updateSystems;
 
+    private LvlPriceCalculator _priceCalc;
+
 
     void Start()
     {
-        
         _world = new EcsWorld();
         _updateSystems = new EcsSystems(_world);
         _runtimeData = new RuntimeData();
+        _businessView.Initialize(_world);
+        _priceCalc = new LvlPriceCalculator();
+
         AddSystems();
         AddOneFrames();
             
         _updateSystems.
+            Inject(_priceCalc).
             Inject(_runtimeData).
             Inject(_businessView).
             Inject(_config);
@@ -45,6 +50,7 @@ public class LoadECS : MonoBehaviour
                 Add(new IncomeProgressRunSystem()).
                 Add(new IncomeTotalRunSystem()).
                 Add(new ProgressUIRunSystem()).
+                Add(new IncomeUIRunSystem()).
                 Add(new MoneyRunSystem())
                 ;
         }
@@ -52,6 +58,8 @@ public class LoadECS : MonoBehaviour
         private void AddOneFrames()
         {
             _updateSystems.
+                OneFrame<IncomeUpdateRequest>().
+                OneFrame<LvlUpgradeFlag>().
                 OneFrame<MoneyUpdateRequest>().
                 OneFrame<IncomeProgressCompleteFlag>()
                 ;

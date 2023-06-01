@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Leopotam.Ecs;
-public class BusinessCell : MonoBehaviour, IProgress
+public class BusinessCell : MonoBehaviour, IProgress, IIncomeView
 {
     [SerializeField]
     private TMP_Text _title;
@@ -40,5 +40,15 @@ public class BusinessCell : MonoBehaviour, IProgress
     public void SetProgress(float progress)
     {
         _progress.SetProgress(progress);
+    }
+
+    public void SetNameBusines(string nameBusines)
+    {
+        _title.text = nameBusines;
+    }
+
+    public void SetIncome(int income)
+    {
+        _income.text = income.ToString();
     }
 }

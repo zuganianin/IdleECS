@@ -8,15 +8,23 @@ namespace CoreLogic.Business {
         readonly ConfigData _config = null;
 
         readonly BusinesView _view = null;
+
+        readonly LvlPriceCalculator _lvlCalc;
         
         public void Init () {
+
+            bool firstInited = false;
             foreach(var config in _config.allBusiness)
             {
-                InitBusiness(config);
+                var entity = InitBusiness(config, !firstInited);
+                if(!firstInited)
+                {
+                    firstInited = true;
+                }
             }
         }
 
-        public void InitBusiness(BusinessConfig config)
+        public EcsEntity InitBusiness(BusinessConfig config, bool isFirst)
         {
             var entity = _world.NewEntity();
             
@@ -28,10 +36,28 @@ namespace CoreLogic.Business {
             income.currentIncome = config.baseIncome;
 
             BusinessCell cell = _view.GetCell();
+            cell.SetNameBusines(config.name);
 
             ref IncomeProgressUIUpdater progressUIUpdater = ref entity.Get<IncomeProgressUIUpdater>();
             progressUIUpdater.progressView = cell;
-    
+
+
+            ref Lvl lvl = ref entity.Get<Lvl>();
+            lvl.current = isFirst ? 1 : 0;
+            lvl.basePrice = config.basePrice;
+            lvl.current = _lvlCalc.PriceForLevel(lvl);
+
+            if(isFirst)
+            {
+                entity.Get<ActiveBusinessFlag>();
+            }
+
+            ref IncomeUIUpdater incomeUI = ref entity.Get<IncomeUIUpdater>();
+            incomeUI.incomeView = cell;
+
+            entity.Get<IncomeUpdateRequest>();
+
+            return entity;
         }
     }
 }

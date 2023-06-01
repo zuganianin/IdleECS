@@ -5,7 +5,7 @@ namespace CoreLogic.Business {
     sealed class IncomeProgressRunSystem : IEcsRunSystem {
         
         readonly EcsWorld _world = null;
-        private readonly EcsFilter<IncomeProgress> _filter = null;
+        private readonly EcsFilter<IncomeProgress, ActiveBusinessFlag> _filter = null;
         
         void IEcsRunSystem.Run () {
             foreach (var i in _filter)

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f327d4ba288d4cb6886977efef8d855, type: 3}
   m_Name: business_1
   m_EditorClassIdentifier: 
+  name: another business
   incomeCoolDown: 6
   basePrice: 40
   baseIncome: 40

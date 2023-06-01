@@ -6,6 +6,8 @@ namespace CoreLogic.Business {
         
         readonly EcsWorld _world = null;
         readonly ConfigData _config = null;
+
+        readonly BusinesView _view = null;
         
         public void Init () {
             foreach(var config in _config.allBusiness)
@@ -24,6 +26,12 @@ namespace CoreLogic.Business {
 
             ref Income income = ref entity.Get<Income>();
             income.currentIncome = config.baseIncome;
+
+            BusinessCell cell = _view.GetCell();
+
+            ref IncomeProgressUIUpdater progressUIUpdater = ref entity.Get<IncomeProgressUIUpdater>();
+            progressUIUpdater.progressView = cell;
+    
         }
     }
 }

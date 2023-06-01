@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProgressBar : MonoBehaviour
+public class ProgressBar : MonoBehaviour, IProgress
 {
     [SerializeField]
     private RectTransform _rectTransform;

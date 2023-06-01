@@ -30,7 +30,7 @@ namespace CoreLogic.Business {
                 progress.current = 0.0f;
                 result = true;
             }
-            progress.procent =  progress.current / progress.max * 100.0f;
+            progress.procent =  progress.current / progress.max;
             return result;
         }
     }

@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
-public class BusinessCell : MonoBehaviour
+using Leopotam.Ecs;
+public class BusinessCell : MonoBehaviour, IProgress
 {
     [SerializeField]
     private TMP_Text _title;
@@ -15,6 +15,9 @@ public class BusinessCell : MonoBehaviour
     private TMP_Text _income;
 
     [SerializeField]
+    private ProgressBar _progress;
+
+    [SerializeField]
     private TMP_Text _lvlupPrice;
 
     [SerializeField]
@@ -22,16 +25,20 @@ public class BusinessCell : MonoBehaviour
 
     [SerializeField]
     private UpgradeDataView _up2;
-
+    
    
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ButtonTaped(int index)
     {
-        
+
+    }
+
+    public void SetProgress(float progress)
+    {
+        _progress.SetProgress(progress);
     }
 }

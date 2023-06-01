@@ -4,6 +4,7 @@ using UnityEngine;
 namespace CoreLogic.Business {
     sealed class IncomeTotalRunSystem : IEcsRunSystem {
         
+        readonly RuntimeData _runtimeData;
         readonly EcsWorld _world = null;
         private readonly EcsFilter<Income, IncomeProgressCompleteFlag> _filter = null;
 
@@ -21,11 +22,12 @@ namespace CoreLogic.Business {
                 ref Income income = ref _filter.Get1(i);
                 UpdateIncome(income.currentIncome);
             }
+            _world.NewEntity().Get<MoneyUpdateRequest>();
         }
 
         private void UpdateIncome(int count)
         {
-            Debug.Log(count);
+            _runtimeData.Money += count;
         }
     }
 }

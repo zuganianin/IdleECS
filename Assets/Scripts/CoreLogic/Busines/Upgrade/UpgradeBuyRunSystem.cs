@@ -4,8 +4,7 @@ namespace CoreLogic.Business {
     sealed class UpgradeBuyRunSystem : IEcsRunSystem {
         readonly RuntimeData _runtimeData = null;
         readonly EcsWorld _world = null;
-        private readonly EcsFilter<Upgrade, TryBuyUpgradeFlag> _upgradeFilter = null;
-        private readonly EcsFilter<Identificator, IncomeBust, TryBuyUpgradeFlag> _incomeFilter = null;
+        private readonly EcsFilter<Upgrade, TryBuyUpgradeFlag>.Exclude<UpgradeBuyedFlag> _upgradeFilter = null;
         
         void IEcsRunSystem.Run () {
 
@@ -20,29 +19,18 @@ namespace CoreLogic.Business {
                 ref Upgrade upgrade = ref _upgradeFilter.Get1(i);
                 if(upgrade.price <= _runtimeData.Money)
                 {
-                    foreach (var j in _incomeFilter)
-                    {
-                        ref Identificator ident = ref _incomeFilter.Get1(j);
-                        if(ident.id != upgrade.businessId)
-                        {
-                            continue;
-                        }
-                        ref IncomeBust bust = ref _incomeFilter.Get2(j);
-                        bust.bust += upgrade.bust;
+                    ref EcsEntity businesEntity = ref _runtimeData.GetEntity(upgrade.businessId);
+                    ref IncomeBust bust = ref businesEntity.Get<IncomeBust>();
+                    bust.bust += upgrade.bust;
+                    businesEntity.Get<IncomeUpgradedFlag>();
 
-                        ref EcsEntity incomeEntity = ref _incomeFilter.GetEntity(j);
-                        incomeEntity.Get<IncomeUpgradedFlag>();
+                    _runtimeData.Money -= upgrade.price;
+                    needMoneyUIUpdate = true;
 
-                        _runtimeData.Money -= upgrade.price;
-                        needMoneyUIUpdate = true;
-
-                        ref EcsEntity upgradeEntity = ref _upgradeFilter.GetEntity(i);
-                        
-                        upgradeEntity.Get<UpgradeBuyedFlag>();
-                        upgradeEntity.Get<UpdateUpgradeUIFlag>();
-                        upgradeEntity.Get<DeleteMark>();
-                        break;
-                    }
+                    ref EcsEntity upgradeEntity = ref _upgradeFilter.GetEntity(i);
+                    upgradeEntity.Get<UpgradeBuyedFlag>();
+                    upgradeEntity.Get<UpdateUpgradeUIFlag>();
+                    upgrade.isBuyed = true;
                 }
             }
             if(needMoneyUIUpdate)

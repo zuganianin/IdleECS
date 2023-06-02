@@ -41,7 +41,7 @@ namespace CoreLogic.Business {
             {
                 Identificator id = _upgradeFilter.Get1(i);
                 Upgrade up = _upgradeFilter.Get2(i);
-                
+                _saveService.Save<bool>($"upgr{up.businessId}_{id.id}",up.isBuyed);
             }
         }
     }

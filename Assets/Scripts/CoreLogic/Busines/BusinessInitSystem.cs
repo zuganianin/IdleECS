@@ -11,6 +11,7 @@ namespace CoreLogic.Business {
         private EcsEntity[] _businessEntities;
         private EcsEntity[,] _upgrades;
         private UiEventToEntity _eventToEntity;
+        private RuntimeData _runtimeData;
         
         public void Init () {
             
@@ -26,13 +27,11 @@ namespace CoreLogic.Business {
                 
                 for(int j = 0; j < config.upgrades.Length; j++)
                 {
-                   
-                    var upgradeConfig = config.upgrades[j];
-                    
+                    var upgradeConfig = config.upgrades[j];   
                     var upgradeView = cell.GetUpgradeViewForIndex(j);
                     upgradeView.FillData(upgradeConfig.upgradeName,upgradeConfig.bust);
                     
-                    var upgradeEntity = InitUpgrade(upgradeConfig,index, upgradeView);
+                    var upgradeEntity = InitUpgrade(upgradeConfig,j,index, upgradeView);
                     _upgrades[index, j] = upgradeEntity;
                 }
 
@@ -41,6 +40,7 @@ namespace CoreLogic.Business {
                
             }
             _eventToEntity.Initialize(_businessEntities,_upgrades);
+            _runtimeData.businessEntities = _businessEntities;
         }
 
         private EcsEntity InitBusiness(BusinessConfig config, int index, BusinessCell cell)
@@ -89,9 +89,12 @@ namespace CoreLogic.Business {
             return entity;
         }
 
-        private EcsEntity InitUpgrade(BusinessUpgrade config, int businesId, IUpgradeDataView view)
+        private EcsEntity InitUpgrade(BusinessUpgrade config, int upgradeId, int businesId, IUpgradeDataView view)
         {
             var entity = _world.NewEntity();
+
+            ref Identificator id = ref entity.Get<Identificator>();
+            id.id = upgradeId;
 
             ref Upgrade upgrade = ref entity.Get<Upgrade>();
             upgrade.bust = config.bust / 100.0f;

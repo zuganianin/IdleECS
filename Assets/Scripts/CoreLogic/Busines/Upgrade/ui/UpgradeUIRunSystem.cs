@@ -13,7 +13,7 @@ namespace CoreLogic.Business {
                 ref UpgradeUIUpdater view = ref _filter.Get2(i);
                 ref EcsEntity upgradeEntity = ref _filter.GetEntity(i);
 
-                if(upgradeEntity.Has<UpgradeBuyedFlag>())
+                if(upgrade.isBuyed)
                 {
                     view.view.SetPrice(0);
                 }

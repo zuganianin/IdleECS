@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Leopotam.Ecs;
-using CoreLogic;
 using CoreLogic.Business;
 using CoreLogic.Business.Configs;
 using Scripts.Services;
@@ -64,7 +61,6 @@ public class LoadECS : MonoBehaviour
                 Add(new IncomeUIRunSystem()).
                 Add(new LvlUpUISystem()).
                 Add(new MoneyRunSystem()).
-                Add(new DeleteRunSystem()).
                 Add(new BusinessSaveSystem())
                 ;
         }
@@ -72,7 +68,6 @@ public class LoadECS : MonoBehaviour
         private void AddOneFrames()
         {
             _updateSystems.
-                OneFrame<DeleteMark>().
                 OneFrame<TryBuyUpgradeFlag>().
                 OneFrame<UpdateUpgradeUIFlag>().
                 OneFrame<TryBuyLvlUpFlag>().

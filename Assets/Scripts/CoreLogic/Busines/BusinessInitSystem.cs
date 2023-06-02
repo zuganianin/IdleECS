@@ -15,10 +15,10 @@ namespace CoreLogic.Business {
         public void Init () {
             
             _eventToEntity = new UiEventToEntity();
-            _businessEntities = new EcsEntity[_config.allBusiness.Count];
-            _upgrades = new EcsEntity[_config.allBusiness.Count,_config.allBusiness[0].upgrades.Length];
+            _businessEntities = new EcsEntity[_config.allBusiness.Length];
+            _upgrades = new EcsEntity[_config.allBusiness.Length,_config.allBusiness[0].upgrades.Length];
 
-            for(int index = 0; index < _config.allBusiness.Count; index++)
+            for(int index = 0; index < _config.allBusiness.Length; index++)
             {
                 var config = _config.allBusiness[index];
                 BusinessCell cell = _view.GetCell(index);

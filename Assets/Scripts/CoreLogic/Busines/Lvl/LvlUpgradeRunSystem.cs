@@ -6,7 +6,7 @@ namespace CoreLogic.Business {
         readonly RuntimeData _runtimeData = null;
         readonly LvlPriceCalculator _calc = null;
         readonly EcsWorld _world = null;
-        private readonly EcsFilter<Lvl, LvlUpUserTapFlag> _filter = null;
+        private readonly EcsFilter<Lvl, TryBuyLvlUpFlag> _filter = null;
 
 
         void IEcsRunSystem.Run () {

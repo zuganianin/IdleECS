@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Leopotam.Ecs;
+using CoreLogic;
 using CoreLogic.Business;
 using CoreLogic.Business.Configs;
 public class LoadECS : MonoBehaviour
@@ -50,18 +51,24 @@ public class LoadECS : MonoBehaviour
                 Add(new IncomeProgressRunSystem()).
                 Add(new IncomeTotalRunSystem()).
                 Add(new LvlUpgradeRunSystem()).
+                Add(new UpgradeBuyRunSystem()).
                 Add(new IncomeRecalcRunSystem()).
                 Add(new ProgressUIRunSystem()).
+                Add(new UpgradeUIRunSystem()).
                 Add(new IncomeUIRunSystem()).
                 Add(new LvlUpUISystem()).
-                Add(new MoneyRunSystem())
+                Add(new MoneyRunSystem()).
+                Add(new DeleteRunSystem())
                 ;
         }
 
         private void AddOneFrames()
         {
             _updateSystems.
-                OneFrame<LvlUpUserTapFlag>().
+                OneFrame<DeleteMark>().
+                OneFrame<TryBuyUpgradeFlag>().
+                OneFrame<UpdateUpgradeUIFlag>().
+                OneFrame<TryBuyLvlUpFlag>().
                 OneFrame<IncomeUpgradedFlag>().
                 OneFrame<LvlUpgradedFlag>().
                 OneFrame<MoneyUpdateRequest>().

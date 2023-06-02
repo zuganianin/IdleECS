@@ -1,15 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Leopotam.Ecs;
 using CoreLogic.Business;
 
 public class UiEventToEntity
 {
-    private EcsEntity[] _entities;
-    public void Initialize(EcsEntity[] entities)
+    private EcsEntity[] _businessEntities;
+    private EcsEntity[,] _upgradesEntities;
+
+    public void Initialize(EcsEntity[] business, EcsEntity[,] upgrades)
     {
-        _entities = entities;
+        _businessEntities = business;
+        _upgradesEntities = upgrades;
     }
 
     public void CellIndexButtonTap(int index, BusinessCellButtonType type)
@@ -17,13 +17,22 @@ public class UiEventToEntity
         switch(type)
         {
             case BusinessCellButtonType.Lvlup: {
-                _entities[index].Get<LvlUpUserTapFlag>();
+                _businessEntities[index].Get<TryBuyLvlUpFlag>();
                 break;
             }
-            case BusinessCellButtonType.upgrade1: {
-                break;
-            }
-            case BusinessCellButtonType.upgrade2: {
+            default : 
+            {
+                int upgradeIdx = (int)type - 1;
+                var upgrade = _upgradesEntities[index,upgradeIdx];
+                var busines = _businessEntities[index];
+
+                if(!upgrade.IsAlive())
+                {
+                    return;
+                }
+
+                upgrade.Get<TryBuyUpgradeFlag>();
+                busines.Get<TryBuyUpgradeFlag>();
                 break;
             }
         }

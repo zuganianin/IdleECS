@@ -8,32 +8,52 @@ namespace CoreLogic.Business {
         readonly ConfigData _config = null;
         readonly BusinesView _view = null;
         readonly LvlPriceCalculator _lvlCalc;
-        private EcsEntity[] _entities;
+        private EcsEntity[] _businessEntities;
+        private EcsEntity[,] _upgrades;
         private UiEventToEntity _eventToEntity;
         
         public void Init () {
+            
             _eventToEntity = new UiEventToEntity();
-            int index = 0;
-            _entities = new EcsEntity[_config.allBusiness.Count];
+            _businessEntities = new EcsEntity[_config.allBusiness.Count];
+            _upgrades = new EcsEntity[_config.allBusiness.Count,_config.allBusiness[0].upgrades.Length];
 
-            foreach(var config in _config.allBusiness)
+            for(int index = 0; index < _config.allBusiness.Count; index++)
             {
-                var entity = InitBusiness(config, index);
-                _entities[index] = entity;
-                index++;
+                var config = _config.allBusiness[index];
+                BusinessCell cell = _view.GetCell(index);
+                var entity = InitBusiness(config, index,cell);
+                
+                for(int j = 0; j < config.upgrades.Length; j++)
+                {
+                   
+                    var upgradeConfig = config.upgrades[j];
+                    
+                    var upgradeView = cell.GetUpgradeViewForIndex(j);
+                    upgradeView.FillData(upgradeConfig.upgradeName,upgradeConfig.bust);
+                    
+                    var upgradeEntity = InitUpgrade(upgradeConfig,index, upgradeView);
+                    _upgrades[index, j] = upgradeEntity;
+                }
+
+
+                _businessEntities[index] = entity;
+               
             }
-            _eventToEntity.Initialize(_entities);
+            _eventToEntity.Initialize(_businessEntities,_upgrades);
         }
 
-        public EcsEntity InitBusiness(BusinessConfig config, int index)
+        private EcsEntity InitBusiness(BusinessConfig config, int index, BusinessCell cell)
         {
             var entity = _world.NewEntity();
+
+            ref Identificator identificator = ref entity.Get<Identificator>();
+            identificator.id = index;
             
             ref IncomeProgress progress = ref entity.Get<IncomeProgress>();
             progress.current = 0;
             progress.max = config.incomeCoolDown;
-
-            BusinessCell cell = _view.GetCell(index);
+           
             cell.SetNameBusines(config.businesName);
             cell.ButtonCellTaped += _eventToEntity.CellIndexButtonTap;
 
@@ -58,12 +78,31 @@ namespace CoreLogic.Business {
             incomeConf.baseIncome = config.baseIncome;
 
             ref Income income = ref entity.Get<Income>();
-            // income.currentIncome = _lvlCalc.IncomeForParamets(lvl,incomeConf);
             
             ref IncomeUIUpdater incomeUI = ref entity.Get<IncomeUIUpdater>();
             incomeUI.incomeView = cell;
-            
             entity.Get<IncomeUpgradedFlag>();
+
+            ref IncomeBust bust = ref entity.Get<IncomeBust>();
+            bust.bust = 0;
+
+            return entity;
+        }
+
+        private EcsEntity InitUpgrade(BusinessUpgrade config, int businesId, IUpgradeDataView view)
+        {
+            var entity = _world.NewEntity();
+
+            ref Upgrade upgrade = ref entity.Get<Upgrade>();
+            upgrade.bust = config.bust / 100.0f;
+            upgrade.price = config.price;
+            upgrade.businessId = businesId;
+
+            ref UpgradeUIUpdater uiUpdater = ref entity.Get<UpgradeUIUpdater>();
+            uiUpdater.view = view;
+
+            entity.Get<UpdateUpgradeUIFlag>();
+
             return entity;
         }
     }

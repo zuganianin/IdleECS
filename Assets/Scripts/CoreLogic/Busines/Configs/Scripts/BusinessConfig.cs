@@ -12,5 +12,6 @@ namespace CoreLogic.Business.Configs {
         public float incomeCoolDown = 3.0f;
         public int basePrice = 3;
         public int baseIncome = 3;
+        public BusinessUpgrade[] upgrades;
     }
 }

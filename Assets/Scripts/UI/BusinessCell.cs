@@ -30,11 +30,8 @@ public class BusinessCell : MonoBehaviour, IProgress, IIncomeView, ILvlUpView
     private TMP_Text _lvlupPrice;
 
     [SerializeField]
-    private UpgradeDataView _up1;
-
-    [SerializeField]
-    private UpgradeDataView _up2;
-
+    private UpgradeDataView[] _upgrades;
+    
     private int _id;
 
     public void Initialize(int id)
@@ -66,6 +63,15 @@ public class BusinessCell : MonoBehaviour, IProgress, IIncomeView, ILvlUpView
     {
         _lvl.text = lvl.ToString();
         _lvlupPrice.text = price.ToString();
+    }
+
+    public IUpgradeDataView GetUpgradeViewForIndex(int index)
+    {
+        if(index < 0 || index >= _upgrades.Length)
+        {
+            return null;
+        }
+        return _upgrades[index];
     }
 
 }

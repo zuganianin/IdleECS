@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f327d4ba288d4cb6886977efef8d855, type: 3}
   m_Name: business_0
   m_EditorClassIdentifier: 
-  businesName: "\u0411\u0438\u0437\u043D\u0435\u0441 1"
+  businesName: "\u0411\u0438\u0437\u043D\u0435\u0441 = 1"
   incomeCoolDown: 3
   basePrice: 3
   baseIncome: 3
   upgrades:
-  - upgradeName: "\u0423\u043B\u0443\u0447\u0448\u0435\u043D\u0438\u0435 1"
+  - upgradeName: "\u0423\u043B\u0443\u0447\u0448\u0435\u043D\u0438\u0435  = 1"
     price: 50
     bust: 50
   - upgradeName: "\u0423\u043B\u0443\u0447\u0448\u0435\u043D\u0438\u0435 2"

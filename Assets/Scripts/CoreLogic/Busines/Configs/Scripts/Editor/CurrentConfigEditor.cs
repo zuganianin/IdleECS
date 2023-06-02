@@ -13,6 +13,7 @@ namespace CoreLogic.Business.Configs {
             int i = 1;
             foreach (var bis in allBusiness)
             {
+                EditorGUI.BeginChangeCheck();
                 bis.businesName = TextField($"{i} Имя биз:",bis.businesName,0);
                 int j = 1;
                 foreach (var upgrade in bis.upgrades)
@@ -20,6 +21,10 @@ namespace CoreLogic.Business.Configs {
                     GUILayout.Space(2);
                     upgrade.upgradeName = TextField($"{j} Улуч.:",upgrade.upgradeName,8);
                     j++;
+                }
+                if (EditorGUI.EndChangeCheck())
+                {
+                    EditorUtility.SetDirty(bis);
                 }
                 GUILayout.Space(8);
                 i++;

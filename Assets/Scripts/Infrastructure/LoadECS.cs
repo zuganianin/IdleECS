@@ -14,16 +14,17 @@ public class LoadECS : MonoBehaviour
     private RuntimeData _runtimeData;
     private EcsWorld _world;
     private EcsSystems _updateSystems;
-
+    private EcsSystems _pauseSystems;
     private LvlPriceCalculator _priceCalc;
-
     private SaveLoadService _saveLoad;
 
     void Start()
     {
+        Application.targetFrameRate = 60;
         _saveLoad = new SaveLoadService();
         _world = new EcsWorld();
         _updateSystems = new EcsSystems(_world);
+        _pauseSystems = new EcsSystems(_world);
         _runtimeData = new RuntimeData();
         _businessView.Initialize();
         _priceCalc = new LvlPriceCalculator();
@@ -38,12 +39,23 @@ public class LoadECS : MonoBehaviour
             Inject(_businessView).
             Inject(_config);
         _updateSystems.Init();
+
+        _pauseSystems.
+            Inject(_saveLoad).
+            Inject(_runtimeData)
+            ;
+        _pauseSystems.Init();
     }
 
     // Update is called once per frame
     void Update()
     {
         _updateSystems.Run();
+    }
+
+    void OnApplicationPause()
+    { 
+        _pauseSystems?.Run();
     }
 
     private void AddSystems()
@@ -60,9 +72,9 @@ public class LoadECS : MonoBehaviour
                 Add(new UpgradeUIRunSystem()).
                 Add(new IncomeUIRunSystem()).
                 Add(new LvlUpUISystem()).
-                Add(new MoneyRunSystem()).
-                Add(new BusinessSaveSystem())
+                Add(new MoneyRunSystem())
                 ;
+            _pauseSystems.Add(new BusinessSaveSystem());            
         }
 
         private void AddOneFrames()
@@ -80,6 +92,7 @@ public class LoadECS : MonoBehaviour
         
         private void OnDestroy()
         {
+            _pauseSystems?.Destroy();
             _updateSystems?.Destroy();
             _world?.Destroy();
         }

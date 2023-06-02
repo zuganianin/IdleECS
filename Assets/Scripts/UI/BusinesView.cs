@@ -25,6 +25,7 @@ public class BusinesView : MonoBehaviour
         var cell = Instantiate<BusinessCell>(_cellPrototype);
         cell.Initialize(id);
         cell.gameObject.transform.SetParent(_parentTransformForCells);
+        cell.transform.localScale = Vector3.one;
         return cell;
     }
 

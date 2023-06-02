@@ -3,7 +3,7 @@ using Scripts.Services;
 using UnityEngine;
 
 namespace CoreLogic.Business {
-    sealed class BusinessSaveSystem : IEcsDestroySystem {
+    sealed class BusinessSaveSystem : IEcsRunSystem, IEcsDestroySystem {
         // auto-injected fields.
         readonly EcsWorld _world = null;
         readonly ISaver _saveService;

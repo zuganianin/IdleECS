@@ -37,11 +37,8 @@ namespace CoreLogic.Business {
             progress.current = 0;
             progress.max = config.incomeCoolDown;
 
-            ref Income income = ref entity.Get<Income>();
-            income.currentIncome = config.baseIncome;
-
             BusinessCell cell = _view.GetCell(index);
-            cell.SetNameBusines(config.name);
+            cell.SetNameBusines(config.businesName);
             cell.ButtonCellTaped += _eventToEntity.CellIndexButtonTap;
 
             ref IncomeProgressUIUpdater progressUIUpdater = ref entity.Get<IncomeProgressUIUpdater>();
@@ -62,6 +59,9 @@ namespace CoreLogic.Business {
                 entity.Get<ActiveBusinessFlag>();
             }
 
+            ref Income income = ref entity.Get<Income>();
+            income.currentIncome = config.baseIncome;
+            
             ref IncomeUIUpdater incomeUI = ref entity.Get<IncomeUIUpdater>();
             incomeUI.incomeView = cell;
             entity.Get<IncomeUpdateRequest>();

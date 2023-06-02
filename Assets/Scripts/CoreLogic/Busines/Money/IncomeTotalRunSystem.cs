@@ -17,8 +17,6 @@ namespace CoreLogic.Business {
             foreach (var i in _filter)
             {
                 ref EcsEntity entity = ref _filter.GetEntity (i);
-                entity.Del<IncomeProgressCompleteFlag>();
-
                 ref Income income = ref _filter.Get1(i);
                 UpdateIncome(income.currentIncome);
             }

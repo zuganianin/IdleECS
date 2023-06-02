@@ -7,6 +7,6 @@ namespace CoreLogic.Business.Configs {
     [CreateAssetMenu(fileName = "ConfigData", menuName = "Business/Config Data Variant")]
     public class ConfigData : ScriptableObject
     {
-        public List<BusinessConfig> allBusiness;
+        public BusinessConfig[] allBusiness;
     }
 }

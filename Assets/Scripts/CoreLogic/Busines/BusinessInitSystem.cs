@@ -1,18 +1,14 @@
 using Leopotam.Ecs;
+using CoreLogic.Business;
 using CoreLogic.Business.Configs;
 
 namespace CoreLogic.Business {
     sealed class BusinessInitSystem : IEcsInitSystem {
-        
         readonly EcsWorld _world = null;
         readonly ConfigData _config = null;
-
         readonly BusinesView _view = null;
-
         readonly LvlPriceCalculator _lvlCalc;
-
         private EcsEntity[] _entities;
-
         private UiEventToEntity _eventToEntity;
         
         public void Init () {
@@ -44,7 +40,6 @@ namespace CoreLogic.Business {
             ref IncomeProgressUIUpdater progressUIUpdater = ref entity.Get<IncomeProgressUIUpdater>();
             progressUIUpdater.progressView = cell;
 
-
             ref Lvl lvl = ref entity.Get<Lvl>();
             lvl.current = (index == 0) ? 1 : 0;
             lvl.basePrice = config.basePrice;
@@ -52,19 +47,23 @@ namespace CoreLogic.Business {
 
             ref LvlUpUIUpdater lvlUI = ref entity.Get<LvlUpUIUpdater>();
             lvlUI.lvlupView = cell;
-            entity.Get<LvlUpdateUIFlag>();
+            entity.Get<LvlUpgradedFlag>();
             
             if(index == 0)
             {
                 entity.Get<ActiveBusinessFlag>();
             }
 
+            ref IncomeConfig incomeConf = ref entity.Get<IncomeConfig>();
+            incomeConf.baseIncome = config.baseIncome;
+
             ref Income income = ref entity.Get<Income>();
-            income.currentIncome = config.baseIncome;
+            // income.currentIncome = _lvlCalc.IncomeForParamets(lvl,incomeConf);
             
             ref IncomeUIUpdater incomeUI = ref entity.Get<IncomeUIUpdater>();
             incomeUI.incomeView = cell;
-            entity.Get<IncomeUpdateRequest>();
+            
+            entity.Get<IncomeUpgradedFlag>();
             return entity;
         }
     }

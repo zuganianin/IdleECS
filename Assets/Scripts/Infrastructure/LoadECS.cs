@@ -50,6 +50,7 @@ public class LoadECS : MonoBehaviour
                 Add(new IncomeProgressRunSystem()).
                 Add(new IncomeTotalRunSystem()).
                 Add(new LvlUpgradeRunSystem()).
+                Add(new IncomeRecalcRunSystem()).
                 Add(new ProgressUIRunSystem()).
                 Add(new IncomeUIRunSystem()).
                 Add(new LvlUpUISystem()).
@@ -60,9 +61,9 @@ public class LoadECS : MonoBehaviour
         private void AddOneFrames()
         {
             _updateSystems.
+                OneFrame<LvlUpUserTapFlag>().
+                OneFrame<IncomeUpgradedFlag>().
                 OneFrame<LvlUpgradedFlag>().
-                OneFrame<IncomeUpdateRequest>().
-                OneFrame<LvlUpdateUIFlag>().
                 OneFrame<MoneyUpdateRequest>().
                 OneFrame<IncomeProgressCompleteFlag>()
                 ;

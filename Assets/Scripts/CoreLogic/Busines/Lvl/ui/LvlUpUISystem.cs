@@ -5,7 +5,7 @@ namespace CoreLogic.Business {
         
         readonly EcsWorld _world = null;
 
-        private readonly EcsFilter<Lvl, LvlUpUIUpdater, LvlUpdateUIFlag> _filter = null;
+        private readonly EcsFilter<Lvl, LvlUpUIUpdater, LvlUpgradedFlag> _filter = null;
         
         public void Run()
         {

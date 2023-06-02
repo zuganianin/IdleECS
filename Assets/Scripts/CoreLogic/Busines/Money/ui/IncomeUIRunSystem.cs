@@ -4,7 +4,7 @@ namespace CoreLogic.Business {
     sealed class IncomeUIRunSystem : IEcsRunSystem {
         
         readonly EcsWorld _world = null;
-        private readonly EcsFilter<Income, IncomeUIUpdater, IncomeUpdateRequest> _filter = null;
+        private readonly EcsFilter<Income, IncomeUIUpdater, IncomeUpgradedFlag> _filter = null;
         
         void IEcsRunSystem.Run () {
             if(_filter.IsEmpty())

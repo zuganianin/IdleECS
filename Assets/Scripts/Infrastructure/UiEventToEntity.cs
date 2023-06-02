@@ -17,7 +17,7 @@ public class UiEventToEntity
         switch(type)
         {
             case BusinessCellButtonType.Lvlup: {
-                _entities[index].Get<LvlUpgradedFlag>();
+                _entities[index].Get<LvlUpUserTapFlag>();
                 break;
             }
             case BusinessCellButtonType.upgrade1: {

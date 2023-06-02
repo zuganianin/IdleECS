@@ -6,7 +6,7 @@ namespace CoreLogic.Business {
         readonly RuntimeData _runtimeData = null;
         readonly LvlPriceCalculator _calc = null;
         readonly EcsWorld _world = null;
-        private readonly EcsFilter<Lvl, Income, LvlUpgradedFlag> _filter = null;
+        private readonly EcsFilter<Lvl, LvlUpUserTapFlag> _filter = null;
 
 
         void IEcsRunSystem.Run () {
@@ -31,10 +31,8 @@ namespace CoreLogic.Business {
                         entity.Get<ActiveBusinessFlag>();
                     }
                     UpgradeLvl(ref lvl);
-                    entity.Get<LvlUpdateUIFlag>();
-
-                    
-                    ref Income income = ref _filter.Get2(i);
+                    entity.Get<LvlUpgradedFlag>();
+                    entity.Get<IncomeUpgradedFlag>();
                 }
             }
             if(needMoneyUIUpdate)

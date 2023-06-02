@@ -5,6 +5,8 @@ using Leopotam.Ecs;
 using CoreLogic;
 using CoreLogic.Business;
 using CoreLogic.Business.Configs;
+using Scripts.Services;
+
 public class LoadECS : MonoBehaviour
 {
     [SerializeField]
@@ -18,9 +20,11 @@ public class LoadECS : MonoBehaviour
 
     private LvlPriceCalculator _priceCalc;
 
+    private SaveLoadService _saveLoad;
 
     void Start()
     {
+        _saveLoad = new SaveLoadService();
         _world = new EcsWorld();
         _updateSystems = new EcsSystems(_world);
         _runtimeData = new RuntimeData();
@@ -31,6 +35,7 @@ public class LoadECS : MonoBehaviour
         AddOneFrames();
             
         _updateSystems.
+            Inject(_saveLoad).
             Inject(_priceCalc).
             Inject(_runtimeData).
             Inject(_businessView).
@@ -48,6 +53,7 @@ public class LoadECS : MonoBehaviour
         {
             _updateSystems.
                 Add(new BusinessInitSystem()).
+                Add(new BusinessLoadInitSystem()).
                 Add(new IncomeProgressRunSystem()).
                 Add(new IncomeTotalRunSystem()).
                 Add(new LvlUpgradeRunSystem()).
@@ -58,7 +64,8 @@ public class LoadECS : MonoBehaviour
                 Add(new IncomeUIRunSystem()).
                 Add(new LvlUpUISystem()).
                 Add(new MoneyRunSystem()).
-                Add(new DeleteRunSystem())
+                Add(new DeleteRunSystem()).
+                Add(new BusinessSaveSystem())
                 ;
         }
 

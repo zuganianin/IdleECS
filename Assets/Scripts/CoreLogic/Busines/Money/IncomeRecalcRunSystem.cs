@@ -3,7 +3,6 @@ using Leopotam.Ecs;
 namespace CoreLogic.Business {
     sealed class IncomeRecalcRunSystem : IEcsRunSystem {
         readonly LvlPriceCalculator _calc = null;
-        readonly EcsWorld _world = null;
         private readonly EcsFilter<Income, IncomeConfig, Lvl, IncomeBust, IncomeUpgradedFlag> _filter = null;
 
         void IEcsRunSystem.Run () {

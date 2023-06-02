@@ -2,8 +2,7 @@ using Leopotam.Ecs;
 
 namespace CoreLogic.Business {
     sealed class UpgradeUIRunSystem : IEcsRunSystem {
-        // auto-injected fields.
-        readonly EcsWorld _world = null;
+        
         private readonly EcsFilter<Upgrade, UpgradeUIUpdater, UpdateUpgradeUIFlag> _filter = null;
 
         void IEcsRunSystem.Run () {

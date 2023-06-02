@@ -2,12 +2,10 @@ using Leopotam.Ecs;
 
 namespace CoreLogic.Business {
     sealed class LvlUpgradeRunSystem : IEcsRunSystem {
-        
+        readonly EcsWorld _world = null;
         readonly RuntimeData _runtimeData = null;
         readonly LvlPriceCalculator _calc = null;
-        readonly EcsWorld _world = null;
         private readonly EcsFilter<Lvl, TryBuyLvlUpFlag> _filter = null;
-
 
         void IEcsRunSystem.Run () {
 

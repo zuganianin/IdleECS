@@ -2,9 +2,6 @@ using Leopotam.Ecs;
 
 namespace CoreLogic.Business {
     sealed class ProgressUIRunSystem : IEcsRunSystem {
-        // auto-injected fields.
-        readonly EcsWorld _world = null;
-
         private readonly EcsFilter<IncomeProgressUIUpdater,IncomeProgress> _filter = null;
 
         void IEcsRunSystem.Run () {

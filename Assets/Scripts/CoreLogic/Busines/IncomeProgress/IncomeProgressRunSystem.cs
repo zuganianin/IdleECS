@@ -4,7 +4,6 @@ using UnityEngine;
 namespace CoreLogic.Business {
     sealed class IncomeProgressRunSystem : IEcsRunSystem {
         
-        readonly EcsWorld _world = null;
         private readonly EcsFilter<IncomeProgress, ActiveBusinessFlag> _filter = null;
         
         void IEcsRunSystem.Run () {

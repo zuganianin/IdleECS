@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace CoreLogic.Business {
     sealed class IncomeTotalRunSystem : IEcsRunSystem {
-        
         readonly RuntimeData _runtimeData;
         readonly EcsWorld _world = null;
         private readonly EcsFilter<Income, IncomeProgressCompleteFlag> _filter = null;

@@ -3,8 +3,6 @@ using Leopotam.Ecs;
 namespace CoreLogic.Business {
     sealed class LvlUpUISystem : IEcsRunSystem {
         
-        readonly EcsWorld _world = null;
-
         private readonly EcsFilter<Lvl, LvlUpUIUpdater, LvlUpgradedFlag> _filter = null;
         
         public void Run()

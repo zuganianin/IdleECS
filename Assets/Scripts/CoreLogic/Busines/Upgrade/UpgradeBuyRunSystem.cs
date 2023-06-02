@@ -2,8 +2,8 @@ using Leopotam.Ecs;
 
 namespace CoreLogic.Business {
     sealed class UpgradeBuyRunSystem : IEcsRunSystem {
-        readonly RuntimeData _runtimeData = null;
         readonly EcsWorld _world = null;
+        readonly RuntimeData _runtimeData = null;
         private readonly EcsFilter<Upgrade, TryBuyUpgradeFlag>.Exclude<UpgradeBuyedFlag> _upgradeFilter = null;
         
         void IEcsRunSystem.Run () {

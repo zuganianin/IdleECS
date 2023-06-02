@@ -3,8 +3,6 @@ using Scripts.Services;
 
 namespace CoreLogic.Business {
     sealed class BusinessLoadInitSystem : IEcsInitSystem {
-        // auto-injected fields.
-        readonly EcsWorld _world = null;
         readonly ILoader _loadService;
         readonly RuntimeData _runtimeData;
         private readonly EcsFilter<Identificator, Upgrade> _upgradeFilter = null;

@@ -4,7 +4,6 @@ namespace CoreLogic.Business  {
     sealed class MoneyRunSystem : IEcsInitSystem, IEcsRunSystem {
         
         readonly BusinesView _view = null;
-        readonly EcsWorld _world = null;
         readonly RuntimeData _runtimeData;
         private readonly EcsFilter<MoneyUpdateRequest> _filter = null;
         

@@ -72,3 +72,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 .vscode
 !idleECSTernovoy_v0.1.apk
+.idea
+.DS_Store
